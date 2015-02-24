@@ -10,7 +10,7 @@ public class Main {
 		Reader r = new Reader();
 		Graph graph = r.readGraph("input.txt");
 		DFSComponents components = new DFSComponents();
-
+		components.dfs(graph.getNodes().get(0), graph);
 	}
 
 }

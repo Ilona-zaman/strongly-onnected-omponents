@@ -12,15 +12,17 @@ public class DFSComponents implements Components {
 	@Override
 	public boolean isStrongly—onnected() {
 		return false;
-
 	}
 
-	void dfs(Node node, Graph graph) {
+	public void dfs(Node node, Graph graph) {
 		node.setVisited(true);
 		List<Link> links = graph.getLinks();
 		for (Link link : links) {
-
+			if (link.getSource() == node) {
+				if (!link.getTarge().isVisited()) {
+					dfs(link.getTarge(), graph);
+				}
+			}
 		}
-
 	}
 }

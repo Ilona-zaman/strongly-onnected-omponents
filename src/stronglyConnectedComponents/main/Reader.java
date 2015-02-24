@@ -22,7 +22,9 @@ public class Reader {
 			System.out.println("File \"" + fileName + "\" not found");
 			return null;
 		}
-		List<Link> list = new ArrayList<Link>();
+		List<Link> links = new ArrayList<Link>();
+		List<Node> nodes = new ArrayList<Node>();
+
 		String tmp;
 		try {
 			while ((tmp = input.readLine()) != null) {
@@ -38,16 +40,25 @@ public class Reader {
 
 				source.setNumber(b[0]);
 				link.setSource(source);
+				boolean isThereSource = nodes.contains(source);
+				if (!isThereSource) {
+					nodes.add(source);
+				}
 
 				targe.setNumber(b[1]);
 				link.setTarge(targe);
+				boolean isThereTarge = nodes.contains(source);
+				if (!isThereTarge) {
+					nodes.add(targe);
+				}
 
-				list.add(link);
+				links.add(link);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		graph.setLinks(list);
+		graph.setNodes(nodes);
+		graph.setLinks(links);
 		return graph;
 
 	}
