@@ -1,4 +1,4 @@
-package stronglyConnectedComponents.entity;
+package com.epam.tutorial.graph.entity;
 
 import java.util.List;
 

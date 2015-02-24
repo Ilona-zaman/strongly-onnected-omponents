@@ -1,9 +1,9 @@
-package stronglyConnectedComponents.entity;
+package com.epam.tutorial.graph.entity;
 
 public class Link {
 
 	Node source;
-	Node targe;
+	Node target;
 	double weight;
 
 	public Node getSource() {
@@ -14,12 +14,12 @@ public class Link {
 		this.source = source;
 	}
 
-	public Node getTarge() {
-		return targe;
+	public Node getTarget() {
+		return target;
 	}
 
-	public void setTarge(Node targe) {
-		this.targe = targe;
+	public void setTarget(Node target) {
+		this.target = target;
 	}
 
 	public double getWeight() {
