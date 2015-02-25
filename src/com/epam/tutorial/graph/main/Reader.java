@@ -20,7 +20,6 @@ public class Reader {
 			input = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e1) {
 			System.out.println("File \"" + fileName + "\" not found");
-			return null;
 		}
 		List<String> lines = new ArrayList<String>();
 		String tmp;
@@ -66,14 +65,13 @@ public class Reader {
 
 			targe.setNumber(Integer.parseInt(b[1]));
 			link.setTarget(targe);
-			boolean isThereTarge = nodes.contains(source);
+			boolean isThereTarge = nodes.contains(targe);
 			if (!isThereTarge) {
 				nodes.add(targe);
 			}
 
 			links.add(link);
 		}
-
 		graph.setNodes(nodes);
 		graph.setLinks(links);
 		return graph;

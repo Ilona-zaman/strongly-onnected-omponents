@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Graph {
 
-	List<Node> nodes;
-	List<Link> links;
+	protected  List<Node> nodes;
+	protected  List<Link> links;
 
 	public List<Node> getNodes() {
 		return nodes;

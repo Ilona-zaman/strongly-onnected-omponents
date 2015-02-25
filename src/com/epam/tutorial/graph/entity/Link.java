@@ -2,9 +2,9 @@ package com.epam.tutorial.graph.entity;
 
 public class Link {
 
-	Node source;
-	Node target;
-	double weight;
+	protected  Node source;
+	protected  Node target;
+	protected  double weight;
 
 	public Node getSource() {
 		return source;

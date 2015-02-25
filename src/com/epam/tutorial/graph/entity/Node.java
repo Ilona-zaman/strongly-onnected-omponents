@@ -2,8 +2,8 @@ package com.epam.tutorial.graph.entity;
 
 public class Node {
 
-	int number;
-	boolean isVisited;
+	protected  int number;
+	protected  boolean isVisited;
 
 	public int getNumber() {
 		return number;
