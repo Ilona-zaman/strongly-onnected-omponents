@@ -44,13 +44,13 @@ public class Reader {
 		Graph graph = new Graph();
 		List<Link> links = new ArrayList<Link>();
 		List<Node> nodes = new ArrayList<Node>();
-
+		
 		for (String line : lines) {
 
 			Link link = new Link();
 			Node source = new Node();
 			Node targe = new Node();
-
+			
 			String[] a = line.split("=");
 			link.setWeight(Double.parseDouble(a[1]));
 
@@ -72,8 +72,20 @@ public class Reader {
 
 			links.add(link);
 		}
+		
 		graph.setNodes(nodes);
 		graph.setLinks(links);
+		
+		for(Node node: nodes){
+			List<Link> childs = new ArrayList<Link>();
+			for(Link link: links){
+				if(link.getSource().getNumber()==node.getNumber()){
+					childs.add(link);
+				}
+			}
+			node.setChilds(childs);
+		}
+		
 		return graph;
 	}
 }

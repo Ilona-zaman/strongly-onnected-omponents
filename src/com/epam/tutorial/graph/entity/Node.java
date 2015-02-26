@@ -1,9 +1,12 @@
 package com.epam.tutorial.graph.entity;
 
+import java.util.List;
+
 public class Node {
 
-	protected  int number;
-	protected  boolean isVisited;
+	protected int number;
+	protected boolean isVisited;
+	protected List<Link> childs;
 
 	public int getNumber() {
 		return number;
@@ -19,6 +22,14 @@ public class Node {
 
 	public void setVisited(boolean isVisited) {
 		this.isVisited = isVisited;
+	}
+
+	public List<Link> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(List<Link> childs) {
+		this.childs = childs;
 	}
 
 	@Override
@@ -43,5 +54,4 @@ public class Node {
 		return true;
 	}
 
-	
 }
