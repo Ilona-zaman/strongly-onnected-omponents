@@ -18,14 +18,15 @@ public class Reader {
 	public List<String> readFile(String fileName) {
 		try {
 			input = new BufferedReader(new FileReader(fileName));
-		} catch (FileNotFoundException e1) {
-			System.out.println("File \"" + fileName + "\" not found");
+		} catch (FileNotFoundException e) {
+			System.err.println("File \"" + fileName + "\" not found");
+			throw new RuntimeException(e);
 		}
 		List<String> lines = new ArrayList<String>();
-		String tmp;
+		String line;
 		try {
-			while ((tmp = input.readLine()) != null) {
-				lines.add(tmp);
+			while ((line = input.readLine()) != null) {
+				lines.add(line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -33,7 +34,8 @@ public class Reader {
 		try {
 			input.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("File \"" + fileName + "\" can't be close");
+			throw new RuntimeException(e);
 		}
 		return lines;
 
@@ -73,9 +75,6 @@ public class Reader {
 			links.add(link);
 		}
 		
-		graph.setNodes(nodes);
-		graph.setLinks(links);
-		
 		for(Node node: nodes){
 			List<Link> childs = new ArrayList<Link>();
 			for(Link link: links){
@@ -86,6 +85,9 @@ public class Reader {
 			node.setChilds(childs);
 		}
 		
+		graph.setNodes(nodes);
+		graph.setLinks(links);
+				
 		return graph;
 	}
 }

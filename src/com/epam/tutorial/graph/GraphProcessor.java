@@ -9,8 +9,10 @@ public interface GraphProcessor {
 
 	boolean isStronglyConnected(Graph graph);
 	
-	public void dfs(Node node, Graph graph);
+	public void dfs(Node startNode, Graph graph);
 	
 	public List<Integer> findingConnectedComponents(Graph graph);
+	
+	public void bfs(Node startNode, Graph graph);
 
 }

@@ -13,12 +13,13 @@ public class Main {
 		Reader read = new Reader();
 		Graph graph = read.readGraph(read.readFile("input.txt"));
 		GraphProcessorImpl components = new GraphProcessorImpl();
-		List<Integer> connectedComponents = components.findingConnectedComponents(graph);
+		System.out.println(components.isStronglyConnected(graph));
+		List<Integer> connectedComponents = components
+				.findingConnectedComponents(graph);
 		for (Node node : graph.getNodes()) {
 			System.out.println(node.getNumber() + " -> "
 					+ connectedComponents.get(node.getNumber() - 1));
 		}
-
 	}
 
 }
