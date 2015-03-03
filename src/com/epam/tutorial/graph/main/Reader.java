@@ -1,9 +1,6 @@
 package com.epam.tutorial.graph.main;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,44 +12,18 @@ public class Reader {
 
 	BufferedReader input = null;
 
-	public List<String> readFile(String fileName) {
-		try {
-			input = new BufferedReader(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			System.err.println("File \"" + fileName + "\" not found");
-			throw new RuntimeException(e);
-		}
-		List<String> lines = new ArrayList<String>();
-		String line;
-		try {
-			while ((line = input.readLine()) != null) {
-				lines.add(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			input.close();
-		} catch (IOException e) {
-			System.err.println("File \"" + fileName + "\" can't be close");
-			throw new RuntimeException(e);
-		}
-		return lines;
-
-	}
-
 	public Graph readGraph(List<String> lines) {
 
 		Graph graph = new Graph();
 		List<Link> links = new ArrayList<Link>();
 		List<Node> nodes = new ArrayList<Node>();
-		
+
 		for (String line : lines) {
 
 			Link link = new Link();
 			Node source = new Node();
 			Node targe = new Node();
-			
+
 			String[] a = line.split("=");
 			link.setWeight(Double.parseDouble(a[1]));
 
@@ -74,20 +45,33 @@ public class Reader {
 
 			links.add(link);
 		}
-		
-		for(Node node: nodes){
+
+		for (Node node : nodes) {
 			List<Link> childs = new ArrayList<Link>();
-			for(Link link: links){
-				if(link.getSource().getNumber()==node.getNumber()){
+			for (Link link : links) {
+				if (link.getSource().getNumber() == node.getNumber()) {
 					childs.add(link);
 				}
 			}
+			for (Link link : links) {
+				if(link.getSource().equals(node)){
+					link.getSource().setChilds(childs);
+				}
+				if(link.getTarget().equals(node)){
+					link.getTarget().setChilds(childs);
+				}
+			}
 			node.setChilds(childs);
+
 		}
-		
+
 		graph.setNodes(nodes);
 		graph.setLinks(links);
-				
+
+		for (Link link : links) {
+			link.setPheromone(0.5);
+		}
+
 		return graph;
 	}
 }

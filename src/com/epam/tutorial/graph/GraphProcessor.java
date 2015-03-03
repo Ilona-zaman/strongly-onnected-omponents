@@ -14,5 +14,7 @@ public interface GraphProcessor {
 	public List<Integer> findingConnectedComponents(Graph graph);
 	
 	public void bfs(Node startNode, Graph graph);
+	
+	public void antColonyOpimization(Graph graph, int numberGeneration);
 
 }

@@ -1,12 +1,13 @@
 package com.epam.tutorial.graph.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
 
 	protected int number;
 	protected boolean isVisited;
-	protected List<Link> childs;
+	protected List<Link> childs = new ArrayList<Link>();
 
 	public int getNumber() {
 		return number;

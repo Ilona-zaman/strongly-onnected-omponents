@@ -5,6 +5,15 @@ public class Link {
 	protected  Node source;
 	protected  Node target;
 	protected  double weight;
+	protected double pheromone = 0.5;
+
+	public double getPheromone() {
+		return pheromone;
+	}
+
+	public void setPheromone(double pheromone) {
+		this.pheromone = pheromone;
+	}
 
 	public Node getSource() {
 		return source;
