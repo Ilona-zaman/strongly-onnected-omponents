@@ -21,20 +21,16 @@ public class GraphProcessorImpl implements GraphProcessor {
 	@Override
 	public boolean isStronglyConnected(Graph graph) {
 		dfs(graph.getNodes().get(0), graph);
-		List<Node> nodes = graph.getNodes();
-		for (Node node : nodes) {
-			if (!node.getIsVisited()) {
-				setVisitedFalse(graph);
-				return false;
-			}
+		if (visitedNodes.size() == graph.getNodes().size()) {
+			setVisitedFalse(graph);
+			return true;
 		}
 		setVisitedFalse(graph);
-		return true;
+		return false;
 	}
 
 	@Override
 	public void dfs(Node startNode, Graph graph) {
-		startNode.setVisited(true);
 		visitedNodes.add(startNode);
 		for (Link link : startNode.getChilds()) {
 			if (!visitedNodes.contains(link.getTarget())) {
@@ -77,7 +73,8 @@ public class GraphProcessorImpl implements GraphProcessor {
 			visitedNodes.add(node);
 			node.setVisited(true);
 			for (Link link : node.getChilds()) {
-				if (!visitedNodes.contains(link.getTarget())) {
+				if (!visitedNodes.contains(link.getTarget())
+						&& !queue.contains(link.getTarget())) {
 					queue.add(link.getTarget());
 				}
 			}
@@ -112,7 +109,7 @@ public class GraphProcessorImpl implements GraphProcessor {
 			for (Ant ant : ants) {
 				Link selectedlLink = selectLink(
 						ant.getNodesPath().get(ant.getNodesPath().size() - 1),
-						ant);
+						ant, graph, step);
 				ant.getPath().add(selectedlLink);
 				ant.setWeightPath(ant.getWeightPath()
 						+ selectedlLink.getWeight());
@@ -130,6 +127,7 @@ public class GraphProcessorImpl implements GraphProcessor {
 		for (Ant ant : ants) {
 			if (lenghtBestPath > ant.getWeightPath()) {
 				lenghtBestPath = ant.getWeightPath();
+				bestPath.clear();
 				bestPath.addAll(ant.getNodesPath());
 			}
 		}
@@ -139,18 +137,22 @@ public class GraphProcessorImpl implements GraphProcessor {
 	void updatePheromon(Graph graph) {
 		List<Link> links = graph.getLinks();
 		for (Link link : links) {
-			link.setPheromone(link.getPheromone()*(1-Q));
+			link.setPheromone(link.getPheromone() * (1 - Q));
 		}
 	}
 
-	Link selectLink(Node node, Ant ant) {
+	Link selectLink(Node node, Ant ant, Graph graph, int numberStep) {
 
 		double probability = 0;
-		Link selectedLink = node.getChilds().get(0);
+		Link selectedLink = new Link();
 		for (Link link : node.getChilds()) {
-			if (probability(link, ant) > probability
-					&& !ant.getNodesPath().contains(link.getTarget())) {
+			if (!ant.getNodesPath().contains(link.getTarget())
+					&& probability(link, ant) >= probability) {
 				probability = probability(link, ant);
+				selectedLink = link;
+			}
+			if (numberStep == graph.getNodes().size()
+					&& link.getTarget().equals(ant.getNodesPath().get(0))) {
 				selectedLink = link;
 			}
 		}
