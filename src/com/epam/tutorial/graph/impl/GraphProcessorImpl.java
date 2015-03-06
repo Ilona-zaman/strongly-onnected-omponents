@@ -83,100 +83,56 @@ public class GraphProcessorImpl implements GraphProcessor {
 
 	@Override
 	public void antColonyOpimization(Graph graph, int numberGeneration) {
+		 AntColonyOptimizationImpl antColonyOptimization = new
+		 AntColonyOptimizationImpl();
+		 List<Node> bestPath = new ArrayList<Node>();
+		 for (int i = 0; i < numberGeneration; i++) {
+		 Ant bestAnt = antColonyOptimization.run(graph);
+		 bestPath = bestAnt.getNodesPath();
+		 for (Node node : bestPath) {
+		 System.out.print(node.getNumber() + " ");
+		 }
+		 System.out.print("-> " + bestAnt.getWeightPath());
+		 System.out.println();
+		 antColonyOptimization.updatePheromon(graph);
+		 }
+
+	}
+
+	@Override
+	public void antColonyOptimizationModification1(Graph graph,
+			int numberGeneration) {
+		AntColonyOptimizationImpl antColonyOptimization = new AntColonyOptimizationModification1Impl();
 		List<Node> bestPath = new ArrayList<Node>();
 		for (int i = 0; i < numberGeneration; i++) {
-			bestPath = run(graph);
+			Ant bestAnt = antColonyOptimization.run(graph);
+			bestPath = bestAnt.getNodesPath();
 			for (Node node : bestPath) {
 				System.out.print(node.getNumber() + " ");
 			}
+			System.out.print("-> " + bestAnt.getWeightPath());
 			System.out.println();
-			updatePheromon(graph);
+			antColonyOptimization.updatePheromon(graph);
 		}
 
 	}
-
-	List<Node> run(Graph graph) {
-		List<Node> nodes = graph.getNodes();
-		List<Ant> ants = new ArrayList<Ant>();
-		for (Node node : nodes) {
-			Ant ant = new Ant();
-			ant.setNumberAnt(node.getNumber());
-			ant.getNodesPath().add(node);
-			ants.add(ant);
-		}
-		int step = 1;
-		while (step != graph.getNodes().size() + 1) {
-			for (Ant ant : ants) {
-				Link selectedlLink = selectLink(
-						ant.getNodesPath().get(ant.getNodesPath().size() - 1),
-						ant, graph, step);
-				ant.getPath().add(selectedlLink);
-				ant.setWeightPath(ant.getWeightPath()
-						+ selectedlLink.getWeight());
-				ant.getNodesPath().add(selectedlLink.getTarget());
-
-				selectedlLink.setPheromone(selectedlLink.getPheromone() + 1
-						/ ant.getWeightPath());
-
-			}
-			step++;
-		}
+	
+	@Override
+	public void antColonyOptimizationModification2(Graph graph,
+			int numberGeneration) {
+		AntColonyOptimizationImpl antColonyOptimization = new AntColonyOptimizationModification2Impl();
 		List<Node> bestPath = new ArrayList<Node>();
-		double lenghtBestPath = 100;
-
-		for (Ant ant : ants) {
-			if (lenghtBestPath > ant.getWeightPath()) {
-				lenghtBestPath = ant.getWeightPath();
-				bestPath.clear();
-				bestPath.addAll(ant.getNodesPath());
+		for (int i = 0; i < numberGeneration; i++) {
+			Ant bestAnt = antColonyOptimization.run(graph);
+			bestPath = bestAnt.getNodesPath();
+			for (Node node : bestPath) {
+				System.out.print(node.getNumber() + " ");
 			}
-		}
-		return bestPath;
-	}
-
-	void updatePheromon(Graph graph) {
-		List<Link> links = graph.getLinks();
-		for (Link link : links) {
-			link.setPheromone(link.getPheromone() * (1 - Q));
-		}
-	}
-
-	Link selectLink(Node node, Ant ant, Graph graph, int numberStep) {
-
-		double probability = 0;
-		Link selectedLink = new Link();
-		for (Link link : node.getChilds()) {
-			if (!ant.getNodesPath().contains(link.getTarget())
-					&& probability(link, ant) >= probability) {
-				probability = probability(link, ant);
-				selectedLink = link;
-			}
-			if (numberStep == graph.getNodes().size()
-					&& link.getTarget().equals(ant.getNodesPath().get(0))) {
-				selectedLink = link;
-			}
+			System.out.print("-> " + bestAnt.getWeightPath());
+			System.out.println();
+			antColonyOptimization.updatePheromon(graph);
 		}
 
-		return selectedLink;
-
-	}
-
-	double probability(Link startLink, Ant ant) {
-
-		double probability = 0;
-		double summ = 0;
-
-		for (Link link : startLink.getSource().getChilds()) {
-			if (!ant.getNodesPath().contains(link.getTarget())) {
-				summ = summ + Math.pow(link.getPheromone(), A)
-						* Math.pow(1 / link.getWeight(), B);
-			}
-		}
-
-		probability = Math.pow(startLink.getPheromone(), A)
-				* Math.pow(1 / startLink.getWeight(), B) / summ;
-
-		return probability;
 	}
 
 	List<Integer> firstInitArrayConnectedComponents(Graph graph) {

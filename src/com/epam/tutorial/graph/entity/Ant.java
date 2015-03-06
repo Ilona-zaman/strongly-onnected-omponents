@@ -1,7 +1,9 @@
 package com.epam.tutorial.graph.entity;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Ant {
 
@@ -9,6 +11,15 @@ public class Ant {
 	protected List<Link> path = new ArrayList<Link>();
 	protected double weightPath = 0;
 	protected List<Node> nodesPath = new ArrayList<Node>();
+	protected Queue<Node> vizitedNode = new LinkedList<Node>();
+
+	public Queue<Node> getVizitedNode() {
+		return vizitedNode;
+	}
+
+	public void setVizitedNode(Queue<Node> vizitedNode) {
+		this.vizitedNode = vizitedNode;
+	}
 
 	public int getNumberAnt() {
 		return numberAnt;
@@ -41,8 +52,5 @@ public class Ant {
 	public void setNodesPath(List<Node> nodesPath) {
 		this.nodesPath = nodesPath;
 	}
-
-	
-	
 	
 }
