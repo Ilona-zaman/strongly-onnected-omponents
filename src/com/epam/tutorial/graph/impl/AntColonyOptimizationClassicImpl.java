@@ -9,7 +9,7 @@ import com.epam.tutorial.graph.entity.Graph;
 import com.epam.tutorial.graph.entity.Link;
 import com.epam.tutorial.graph.entity.Node;
 
-public class AntColonyOptimizationImpl implements AntColonyOptimization {
+public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 
 	final double A = 0.5;
 	final double B = 0.5;

@@ -82,9 +82,9 @@ public class GraphProcessorImpl implements GraphProcessor {
 	}
 
 	@Override
-	public void antColonyOpimization(Graph graph, int numberGeneration) {
-		 AntColonyOptimizationImpl antColonyOptimization = new
-		 AntColonyOptimizationImpl();
+	public void antColonyOpimizationClassic(Graph graph, int numberGeneration) {
+		 AntColonyOptimizationClassicImpl antColonyOptimization = new
+		 AntColonyOptimizationClassicImpl();
 		 List<Node> bestPath = new ArrayList<Node>();
 		 for (int i = 0; i < numberGeneration; i++) {
 		 Ant bestAnt = antColonyOptimization.run(graph);
@@ -100,9 +100,9 @@ public class GraphProcessorImpl implements GraphProcessor {
 	}
 
 	@Override
-	public void antColonyOptimizationModification1(Graph graph,
+	public void antColonyOptimizationThreshold(Graph graph,
 			int numberGeneration) {
-		AntColonyOptimizationImpl antColonyOptimization = new AntColonyOptimizationModification1Impl();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationThresholdImpl();
 		List<Node> bestPath = new ArrayList<Node>();
 		for (int i = 0; i < numberGeneration; i++) {
 			Ant bestAnt = antColonyOptimization.run(graph);
@@ -118,9 +118,27 @@ public class GraphProcessorImpl implements GraphProcessor {
 	}
 	
 	@Override
-	public void antColonyOptimizationModification2(Graph graph,
+	public void antColonyOptimizationModification(Graph graph,
 			int numberGeneration) {
-		AntColonyOptimizationImpl antColonyOptimization = new AntColonyOptimizationModification2Impl();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationModificationImpl();
+		List<Node> bestPath = new ArrayList<Node>();
+		for (int i = 0; i < numberGeneration; i++) {
+			Ant bestAnt = antColonyOptimization.run(graph);
+			bestPath = bestAnt.getNodesPath();
+			for (Node node : bestPath) {
+				System.out.print(node.getNumber() + " ");
+			}
+			System.out.print("-> " + bestAnt.getWeightPath());
+			System.out.println();
+			antColonyOptimization.updatePheromon(graph);
+		}
+
+	}
+	
+	@Override
+	public void antColonyOptimizationRandom(Graph graph,
+			int numberGeneration) {
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationRandomImpl();
 		List<Node> bestPath = new ArrayList<Node>();
 		for (int i = 0; i < numberGeneration; i++) {
 			Ant bestAnt = antColonyOptimization.run(graph);

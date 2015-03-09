@@ -9,8 +9,8 @@ import com.epam.tutorial.graph.entity.Graph;
 import com.epam.tutorial.graph.entity.Link;
 import com.epam.tutorial.graph.entity.Node;
 
-public class AntColonyOptimizationModification2Impl extends
-		AntColonyOptimizationImpl {
+public class AntColonyOptimizationModificationImpl extends
+		AntColonyOptimizationClassicImpl {
 
 	@Override
 	public Ant run(Graph graph) {

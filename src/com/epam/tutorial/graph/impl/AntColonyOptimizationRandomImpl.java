@@ -9,17 +9,14 @@ import com.epam.tutorial.graph.entity.Graph;
 import com.epam.tutorial.graph.entity.Link;
 import com.epam.tutorial.graph.entity.Node;
 
-public class AntColonyOptimizationModification1Impl extends
-		AntColonyOptimizationImpl {
-
+public class AntColonyOptimizationRandomImpl extends AntColonyOptimizationClassicImpl{
+	
 	@Override
 	public Link selectLink(Node node, Ant ant, Graph graph, int numberStep) {
-		double probability = 0.3;
-		Link selectedLink = new Link();
 		List<Link> selectedLinks = new ArrayList<Link>();
+		Link selectedLink = null;
 		for (Link link : node.getChilds()) {
-			if (!ant.getNodesPath().contains(link.getTarget())
-					&& probability(link, ant) > probability) {
+			if (!ant.getNodesPath().contains(link.getTarget())) {
 				selectedLinks.add(link);
 			}
 		}
@@ -36,7 +33,6 @@ public class AntColonyOptimizationModification1Impl extends
 					.size()));
 			return selectedLink;
 		}
-		
 
 	}
 

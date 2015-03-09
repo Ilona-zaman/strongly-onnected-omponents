@@ -16,8 +16,9 @@ public class Main {
 
 		Reader read = new Reader();
 		Graph graph;
+		int nuberiteration = 20;
 		try {
-			graph = read.readGraph(Files.readAllLines(Paths.get("test_1.txt")));
+			graph = read.readGraph(Files.readAllLines(Paths.get("test_3.txt")));
 			try {
 				GraphProcessorImpl components = new GraphProcessorImpl();
 				System.out.println(components.isStronglyConnected(graph));
@@ -28,21 +29,27 @@ public class Main {
 							+ connectedComponents.get(node.getNumber() - 1));
 				}
 				System.out
-						.println("Please, choose algoritm which you want to use: 1 - Ant Colony Optimization, 2- Ant Colony Optimization with Modification 1, 3- Ant Colony Optimization with Modification 2");
+						.println("Please, choose algoritm which you want to use: \n1 - Ant Colony Optimization (Classic), \n2 - Ant Colony Optimization (Threshold), \n3 - Ant Colony Optimization with Modification, \n4 - Ant Colony Optimization (Random).");
 				@SuppressWarnings("resource")
 				Scanner scaner = new Scanner(System.in);
 				String selectedAlgoritm = scaner.nextLine();
 				if (selectedAlgoritm.contains("1")) {
-					System.out.println("Ant Colony Optimization");
-					components.antColonyOpimization(graph, 10);
+					System.out.println("Ant Colony Optimization (Classic)");
+					components.antColonyOpimizationClassic(graph,
+							nuberiteration);
 				} else if (selectedAlgoritm.contains("2")) {
-					System.out
-							.println("Ant Colony Optimization With Modification 1");
-					components.antColonyOptimizationModification1(graph, 10);
+					System.out.println("Ant Colony Optimization (Threshold)");
+					components.antColonyOptimizationThreshold(graph,
+							nuberiteration);
 				} else if (selectedAlgoritm.contains("3")) {
 					System.out
-							.println("Ant Colony Optimization With Modification 2");
-					components.antColonyOptimizationModification2(graph, 10);
+							.println("Ant Colony Optimization With Modification");
+					components.antColonyOptimizationModification(graph,
+							nuberiteration);
+				} else if (selectedAlgoritm.contains("4")) {
+					System.out.println("Ant Colony Optimization (Random)");
+					components.antColonyOptimizationRandom(graph,
+							nuberiteration);
 				} else {
 					System.out.println("Algoritm don't select");
 				}

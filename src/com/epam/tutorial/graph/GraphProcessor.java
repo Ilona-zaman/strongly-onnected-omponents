@@ -15,10 +15,12 @@ public interface GraphProcessor {
 	
 	public void bfs(Node startNode, Graph graph);
 	
-	public void antColonyOpimization(Graph graph, int numberGeneration);
+	public void antColonyOpimizationClassic(Graph graph, int numberGeneration);
 	
-	public void antColonyOptimizationModification1(Graph graph, int numberGeneration);
+	public void antColonyOptimizationThreshold(Graph graph, int numberGeneration);
 
-	public void antColonyOptimizationModification2(Graph graph, int numberGeneration);
+	public void antColonyOptimizationModification(Graph graph, int numberGeneration);
+
+	public void antColonyOptimizationRandom(Graph graph, int numberGeneration);
 
 }
