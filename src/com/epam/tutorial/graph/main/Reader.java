@@ -1,6 +1,8 @@
 package com.epam.tutorial.graph.main;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import com.epam.tutorial.graph.entity.Node;
 public class Reader {
 
 	BufferedReader input = null;
+	int n = 0;
 
 	public Graph readGraph(List<String> lines) {
 
@@ -54,10 +57,10 @@ public class Reader {
 				}
 			}
 			for (Link link : links) {
-				if(link.getSource().equals(node)){
+				if (link.getSource().equals(node)) {
 					link.getSource().setChilds(childs);
 				}
-				if(link.getTarget().equals(node)){
+				if (link.getTarget().equals(node)) {
 					link.getTarget().setChilds(childs);
 				}
 			}
@@ -73,5 +76,20 @@ public class Reader {
 		}
 
 		return graph;
+	}
+
+	File createFile(String testName, String formatFile, String algoritm)
+			throws IOException {
+		n++;
+		File file = new File("D:/Projects/strongly-сonnected-сomponents/"
+				+ algoritm + "/" + testName + "_" + String.valueOf(n)
+				+ formatFile);
+		if (!file.exists()) {
+			file.createNewFile();
+			return file;
+		} else {
+			return createFile(testName, formatFile, algoritm);
+		}
+
 	}
 }

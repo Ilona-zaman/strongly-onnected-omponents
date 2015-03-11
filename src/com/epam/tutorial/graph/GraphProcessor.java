@@ -1,5 +1,6 @@
 package com.epam.tutorial.graph;
 
+import java.io.File;
 import java.util.List;
 
 import com.epam.tutorial.graph.entity.Graph;
@@ -15,12 +16,14 @@ public interface GraphProcessor {
 	
 	public void bfs(Node startNode, Graph graph);
 	
-	public void antColonyOpimizationClassic(Graph graph, int numberGeneration);
+	public void antColonyOpimizationClassic(Graph graph, int numberGeneration,  File file);
 	
-	public void antColonyOptimizationThreshold(Graph graph, int numberGeneration);
+	public void antColonyOptimizationThreshold(Graph graph, int numberGeneration, File file);
 
 	public void antColonyOptimizationModification(Graph graph, int numberGeneration);
 
-	public void antColonyOptimizationRandom(Graph graph, int numberGeneration);
+	public void antColonyOptimizationRandom(Graph graph, int numberGeneration, File file);
+	
+	public void antColonyOptimizationGreedy(Graph graph, int numberGeneration, File file);
 
 }

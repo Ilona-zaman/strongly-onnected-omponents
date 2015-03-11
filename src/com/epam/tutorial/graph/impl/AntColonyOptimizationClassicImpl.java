@@ -2,6 +2,7 @@ package com.epam.tutorial.graph.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.epam.tutorial.graph.AntColonyOptimization;
 import com.epam.tutorial.graph.entity.Ant;
@@ -13,7 +14,7 @@ public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 
 	final double A = 0.5;
 	final double B = 0.5;
-	final double Q = 0.8;
+	final double Q = 0.2;
 
 	@Override
 	public Ant run(Graph graph) {
@@ -37,15 +38,20 @@ public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 					ant.setWeightPath(ant.getWeightPath()
 							+ selectedlLink.getWeight());
 					ant.getNodesPath().add(selectedlLink.getTarget());
-
-					selectedlLink.setPheromone(selectedlLink.getPheromone() + 1
-							/ ant.getWeightPath());
 				}
 			}
 			step++;
 		}
+
+		updatePheromon(ants);
+		return getBestAnt(ants);
+
+	}
+
+	@Override
+	public Ant getBestAnt(List<Ant> ants) {
 		Ant bestAnt = new Ant();
-		double lenghtBestPath = 100;
+		double lenghtBestPath = Double.MAX_VALUE;
 
 		for (Ant ant : ants) {
 			if (lenghtBestPath > ant.getWeightPath()) {
@@ -54,10 +60,21 @@ public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 			}
 		}
 		return bestAnt;
+
 	}
 
 	@Override
-	public void updatePheromon(Graph graph) {
+	public void updatePheromon(List<Ant> ants) {
+		for (Ant ant : ants) {
+			List<Link> path = ant.getPath();
+			for (Link link : path) {
+				link.setPheromone(link.getPheromone() + 1 / ant.getWeightPath());
+			}
+		}
+	}
+
+	@Override
+	public void evaporationPheromon(Graph graph) {
 		List<Link> links = graph.getLinks();
 		for (Link link : links) {
 			link.setPheromone(link.getPheromone() * (1 - Q));
@@ -68,13 +85,24 @@ public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 	public Link selectLink(Node node, Ant ant, Graph graph, int numberStep) {
 		double probability = 0;
 		Link selectedLink = null;
+		List<Double> probabilitys = new ArrayList<Double>();
+		List<Link> selectedLinks = new ArrayList<Link>();
 		for (Link link : node.getChilds()) {
-			if (!ant.getNodesPath().contains(link.getTarget())
-					&& probability(link, ant) >= probability) {
-				probability = probability(link, ant);
-				selectedLink = link;
+			if (!ant.getNodesPath().contains(link.getTarget())) {
+				probability = (probability + probability(link, ant) * 100);
+				probabilitys.add(probability);
+				selectedLinks.add(link);
 			}
 		}
+		Random random = new Random();
+		int n = random.nextInt(100);
+		for (Double pr : probabilitys)
+			if (n > pr) {
+				selectedLink = selectedLinks.get(probabilitys.indexOf(pr) + 1);
+			} else {
+				selectedLink = selectedLinks.get(probabilitys.indexOf(pr));
+				break;
+			}
 		if (selectedLink == null) {
 			ant.getNodesPath().remove(0);
 			ant.setWeightPath(ant.getWeightPath()

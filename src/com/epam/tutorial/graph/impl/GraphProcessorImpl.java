@@ -1,5 +1,8 @@
 package com.epam.tutorial.graph.impl;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,41 +85,175 @@ public class GraphProcessorImpl implements GraphProcessor {
 	}
 
 	@Override
-	public void antColonyOpimizationClassic(Graph graph, int numberGeneration) {
-		 AntColonyOptimizationClassicImpl antColonyOptimization = new
-		 AntColonyOptimizationClassicImpl();
-		 List<Node> bestPath = new ArrayList<Node>();
-		 for (int i = 0; i < numberGeneration; i++) {
-		 Ant bestAnt = antColonyOptimization.run(graph);
-		 bestPath = bestAnt.getNodesPath();
-		 for (Node node : bestPath) {
-		 System.out.print(node.getNumber() + " ");
-		 }
-		 System.out.print("-> " + bestAnt.getWeightPath());
-		 System.out.println();
-		 antColonyOptimization.updatePheromon(graph);
-		 }
+	public void antColonyOpimizationClassic(Graph graph, int numberGeneration,
+			File file) {
+		long startTime = System.nanoTime();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationClassicImpl();
+		List<Node> bestPath = new ArrayList<Node>();
+		FileWriter f = null;
+		try {
+			f = new FileWriter(file);
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
+					+ " B = " + B + " Q = " + Q + "\n");
+			for (int i = 0; i < numberGeneration; i++) {
+				Ant bestAnt = antColonyOptimization.run(graph);
+				bestPath = bestAnt.getNodesPath();
+
+				for (Node node : bestPath) {
+					f.write(node.getNumber() + " ");
+				}
+				f.write("-> " + bestAnt.getWeightPath() + "\n");
+
+				for (Node node : bestPath) {
+					System.out.print(node.getNumber() + " ");
+				}
+				System.out.print("-> " + bestAnt.getWeightPath());
+				System.out.println();
+				antColonyOptimization.evaporationPheromon(graph);
+
+			}
+			long timeSpent = System.nanoTime() - startTime;
+			System.out.println("program worked " + timeSpent + " ns");
+			f.write("program worked " + timeSpent + " ns");
+			f.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (f != null) {
+				try {
+					f.close();
+				} catch (IOException ex) {
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void antColonyOptimizationThreshold(Graph graph,
-			int numberGeneration) {
+			int numberGeneration, File file) {
+		long startTime = System.nanoTime();
 		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationThresholdImpl();
 		List<Node> bestPath = new ArrayList<Node>();
-		for (int i = 0; i < numberGeneration; i++) {
-			Ant bestAnt = antColonyOptimization.run(graph);
-			bestPath = bestAnt.getNodesPath();
-			for (Node node : bestPath) {
-				System.out.print(node.getNumber() + " ");
+		FileWriter f = null;
+		try {
+			f = new FileWriter(file);
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
+					+ " B = " + B + " Q = " + Q + "\n");
+			for (int i = 0; i < numberGeneration; i++) {
+				Ant bestAnt = antColonyOptimization.run(graph);
+				bestPath = bestAnt.getNodesPath();
+				for (Node node : bestPath) {
+					f.write(node.getNumber() + " ");
+				}
+				f.write("-> " + bestAnt.getWeightPath() + "\n");
+				for (Node node : bestPath) {
+					System.out.print(node.getNumber() + " ");
+				}
+				System.out.print("-> " + bestAnt.getWeightPath());
+				System.out.println();
+				antColonyOptimization.evaporationPheromon(graph);
 			}
-			System.out.print("-> " + bestAnt.getWeightPath());
-			System.out.println();
-			antColonyOptimization.updatePheromon(graph);
+			long timeSpent = System.nanoTime() - startTime;
+			System.out.println("program worked " + timeSpent + " ns");
+			f.write("program worked " + timeSpent + " ns");
+			f.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (f != null) {
+				try {
+					f.close();
+				} catch (IOException ex) {
+				}
+			}
 		}
 
 	}
-	
+
+	@Override
+	public void antColonyOptimizationRandom(Graph graph, int numberGeneration,
+			File file) {
+		long startTime = System.nanoTime();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationRandomImpl();
+		List<Node> bestPath = new ArrayList<Node>();
+		FileWriter f = null;
+		try {
+			f = new FileWriter(file);
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
+					+ " B = " + B + " Q = " + Q + "\n");
+			for (int i = 0; i < numberGeneration; i++) {
+				Ant bestAnt = antColonyOptimization.run(graph);
+				bestPath = bestAnt.getNodesPath();
+				for (Node node : bestPath) {
+					f.write(node.getNumber() + " ");
+				}
+				f.write("-> " + bestAnt.getWeightPath() + "\n");
+				for (Node node : bestPath) {
+					System.out.print(node.getNumber() + " ");
+				}
+				System.out.print("-> " + bestAnt.getWeightPath());
+				System.out.println();
+				antColonyOptimization.evaporationPheromon(graph);
+			}
+			long timeSpent = System.nanoTime() - startTime;
+			System.out.println("program worked " + timeSpent + " ns");
+			f.write("program worked " + timeSpent + " ns");
+			f.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (f != null) {
+				try {
+					f.close();
+				} catch (IOException ex) {
+				}
+			}
+		}
+
+	}
+
+	@Override
+	public void antColonyOptimizationGreedy(Graph graph, int numberGeneration,
+			File file) {
+		long startTime = System.nanoTime();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationGreedyImpl();
+		List<Node> bestPath = new ArrayList<Node>();
+		FileWriter f = null;
+		try {
+			f = new FileWriter(file);
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
+					+ " B = " + B + " Q = " + Q + "\n");
+			for (int i = 0; i < numberGeneration; i++) {
+				Ant bestAnt = antColonyOptimization.run(graph);
+				bestPath = bestAnt.getNodesPath();
+				for (Node node : bestPath) {
+					f.write(node.getNumber() + " ");
+				}
+				f.write("-> " + bestAnt.getWeightPath() + "\n");
+				for (Node node : bestPath) {
+					System.out.print(node.getNumber() + " ");
+				}
+				System.out.print("-> " + bestAnt.getWeightPath());
+				System.out.println();
+				antColonyOptimization.evaporationPheromon(graph);
+			}
+			long timeSpent = System.nanoTime() - startTime;
+			System.out.println("program worked " + timeSpent + " ns");
+			f.write("program worked " + timeSpent + " ns");
+			f.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (f != null) {
+				try {
+					f.close();
+				} catch (IOException ex) {
+				}
+			}
+		}
+	}
+
 	@Override
 	public void antColonyOptimizationModification(Graph graph,
 			int numberGeneration) {
@@ -130,25 +267,7 @@ public class GraphProcessorImpl implements GraphProcessor {
 			}
 			System.out.print("-> " + bestAnt.getWeightPath());
 			System.out.println();
-			antColonyOptimization.updatePheromon(graph);
-		}
-
-	}
-	
-	@Override
-	public void antColonyOptimizationRandom(Graph graph,
-			int numberGeneration) {
-		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationRandomImpl();
-		List<Node> bestPath = new ArrayList<Node>();
-		for (int i = 0; i < numberGeneration; i++) {
-			Ant bestAnt = antColonyOptimization.run(graph);
-			bestPath = bestAnt.getNodesPath();
-			for (Node node : bestPath) {
-				System.out.print(node.getNumber() + " ");
-			}
-			System.out.print("-> " + bestAnt.getWeightPath());
-			System.out.println();
-			antColonyOptimization.updatePheromon(graph);
+			antColonyOptimization.evaporationPheromon(graph);
 		}
 
 	}
