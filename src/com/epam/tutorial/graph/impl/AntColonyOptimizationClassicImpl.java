@@ -12,9 +12,9 @@ import com.epam.tutorial.graph.entity.Node;
 
 public class AntColonyOptimizationClassicImpl implements AntColonyOptimization {
 
-	final double A = 0.5;
-	final double B = 0.5;
-	final double Q = 0.2;
+	final static double A = 0.5;
+	final static double B = 0.5;
+	final static double Q = 0.2;
 
 	@Override
 	public Ant run(Graph graph) {

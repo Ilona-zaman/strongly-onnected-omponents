@@ -26,4 +26,6 @@ public interface GraphProcessor {
 	
 	public void antColonyOptimizationGreedy(Graph graph, int numberGeneration, File file);
 
+	void antColonyOptimizationMixed(Graph graph, int numberGeneration, File file);
+
 }

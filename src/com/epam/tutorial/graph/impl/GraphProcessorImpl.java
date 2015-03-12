@@ -17,9 +17,6 @@ import com.epam.tutorial.graph.entity.Node;
 public class GraphProcessorImpl implements GraphProcessor {
 
 	List<Node> visitedNodes = new ArrayList<Node>();
-	final double A = 0.5;
-	final double B = 0.5;
-	final double Q = 0.8;
 
 	@Override
 	public boolean isStronglyConnected(Graph graph) {
@@ -93,8 +90,10 @@ public class GraphProcessorImpl implements GraphProcessor {
 		FileWriter f = null;
 		try {
 			f = new FileWriter(file);
-			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
-					+ " B = " + B + " Q = " + Q + "\n");
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = "
+					+ AntColonyOptimizationClassicImpl.A + " B = "
+					+ AntColonyOptimizationClassicImpl.B + " Q = "
+					+ AntColonyOptimizationClassicImpl.Q + "\n");
 			for (int i = 0; i < numberGeneration; i++) {
 				Ant bestAnt = antColonyOptimization.run(graph);
 				bestPath = bestAnt.getNodesPath();
@@ -138,8 +137,10 @@ public class GraphProcessorImpl implements GraphProcessor {
 		FileWriter f = null;
 		try {
 			f = new FileWriter(file);
-			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
-					+ " B = " + B + " Q = " + Q + "\n");
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = "
+					+ AntColonyOptimizationClassicImpl.A + " B = "
+					+ AntColonyOptimizationClassicImpl.B + " Q = "
+					+ AntColonyOptimizationClassicImpl.Q + "\n");
 			for (int i = 0; i < numberGeneration; i++) {
 				Ant bestAnt = antColonyOptimization.run(graph);
 				bestPath = bestAnt.getNodesPath();
@@ -180,8 +181,10 @@ public class GraphProcessorImpl implements GraphProcessor {
 		FileWriter f = null;
 		try {
 			f = new FileWriter(file);
-			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
-					+ " B = " + B + " Q = " + Q + "\n");
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = "
+					+ AntColonyOptimizationClassicImpl.A + " B = "
+					+ AntColonyOptimizationClassicImpl.B + " Q = "
+					+ AntColonyOptimizationClassicImpl.Q + "\n");
 			for (int i = 0; i < numberGeneration; i++) {
 				Ant bestAnt = antColonyOptimization.run(graph);
 				bestPath = bestAnt.getNodesPath();
@@ -222,8 +225,10 @@ public class GraphProcessorImpl implements GraphProcessor {
 		FileWriter f = null;
 		try {
 			f = new FileWriter(file);
-			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = " + A
-					+ " B = " + B + " Q = " + Q + "\n");
+			f.write("Ant Colony Optimization (Classic)" + "\n" + "A = "
+					+ AntColonyOptimizationClassicImpl.A + " B = "
+					+ AntColonyOptimizationClassicImpl.B + " Q = "
+					+ AntColonyOptimizationClassicImpl.Q + "\n");
 			for (int i = 0; i < numberGeneration; i++) {
 				Ant bestAnt = antColonyOptimization.run(graph);
 				bestPath = bestAnt.getNodesPath();
@@ -252,6 +257,50 @@ public class GraphProcessorImpl implements GraphProcessor {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void antColonyOptimizationMixed(Graph graph, int numberGeneration,
+			File file) {
+		long startTime = System.nanoTime();
+		AntColonyOptimizationClassicImpl antColonyOptimization = new AntColonyOptimizationMixImpl();
+		List<Node> bestPath = new ArrayList<Node>();
+		FileWriter f = null;
+		try {
+			f = new FileWriter(file);
+			f.write("Ant Colony Optimization (Mix)" + "\n" + "A = "
+					+ AntColonyOptimizationClassicImpl.A + " B = "
+					+ AntColonyOptimizationClassicImpl.B + " Q = "
+					+ AntColonyOptimizationClassicImpl.Q + "\n");
+			for (int i = 0; i < numberGeneration; i++) {
+				Ant bestAnt = antColonyOptimization.run(graph);
+				bestPath = bestAnt.getNodesPath();
+				for (Node node : bestPath) {
+					f.write(node.getNumber() + " ");
+				}
+				f.write("-> " + bestAnt.getWeightPath() + "\n");
+				for (Node node : bestPath) {
+					System.out.print(node.getNumber() + " ");
+				}
+				System.out.print("-> " + bestAnt.getWeightPath());
+				System.out.println();
+				antColonyOptimization.evaporationPheromon(graph);
+			}
+			long timeSpent = System.nanoTime() - startTime;
+			System.out.println("program worked " + timeSpent + " ns");
+			f.write("program worked " + timeSpent + " ns");
+			f.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (f != null) {
+				try {
+					f.close();
+				} catch (IOException ex) {
+				}
+			}
+		}
+
 	}
 
 	@Override

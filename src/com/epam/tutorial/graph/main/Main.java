@@ -26,7 +26,7 @@ public class Main {
 			try {
 				GraphProcessorImpl components = new GraphProcessorImpl();
 				System.out
-						.println("Please, choose algoritm which you want to use: \n1 - Ant Colony Optimization (Classic), \n2 - Ant Colony Optimization (Threshold), \n3 - Ant Colony Optimization (Random), \n4 - Ant Colony Optimization (Greedy), \n5 - Ant Colony Optimization with Modification.");
+						.println("Please, choose algoritm which you want to use: \n1 - Ant Colony Optimization (Classic), \n2 - Ant Colony Optimization (Threshold), \n3 - Ant Colony Optimization (Random), \n4 - Ant Colony Optimization (Greedy), \n5 - Ant Colony Optimization with Modification, \n6 - Ant Colony Optimization (Mix).");
 				Scanner scaner = new Scanner(System.in);
 				String selectedAlgoritm = scaner.nextLine();
 				if (selectedAlgoritm.contains("1")) {
@@ -61,6 +61,13 @@ public class Main {
 							numberIteration);
 					long timeSpent = System.nanoTime() - startTime;
 					System.out.println("program worked " + timeSpent + " ns");
+				} else if (selectedAlgoritm.contains("6")) {
+					String algoritm = "antColonyOptimizationMix";
+					File file = read.createFile(testName, formatFile, algoritm);
+					System.out
+							.println("Ant Colony Optimization (Mix)");
+					components.antColonyOptimizationMixed(graph,
+							numberIteration, file);
 				} else {
 					System.out.println("Algoritm don't select");
 				}
